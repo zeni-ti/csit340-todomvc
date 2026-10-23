@@ -2,10 +2,7 @@ import { useState } from 'react'
 
 function Todos() {
   const [text, setText] = useState('')
-  const [todos, setTodos] = useState([
-  { id: 1, text: 'Learn the spread operator', completed: false },
-  { id: 2, text: 'Set up Tailwind', completed: true },
-])
+  const [todos, setTodos] = useState([])
 
 function handleSubmit(e) {
     e.preventDefault()
@@ -29,6 +26,9 @@ function handleSubmit(e) {
   function handleDelete(id) {
     setTodos(todos.filter((todo) => todo.id !== id))
   }
+
+  const activeCount = todos.filter((todo) => !todo.completed).length
+
   return (
     <section className="mx-auto max-w-[550px]">
         <h1 className="text-center text-[80px] font-extralight text-[#b83f45]">
@@ -44,7 +44,8 @@ function handleSubmit(e) {
             placeholder="What needs to be done?"
           />
         </form>
-
+        {todos.length > 0 && (
+        <>
         <main className="relative border-t border-[#e6e6e6]">
           <input id="toggle-all" type="checkbox" className="peer sr-only" />
           <label
@@ -89,7 +90,8 @@ function handleSubmit(e) {
         </main>
         <footer className="grid h-10 grid-cols-3 items-center border-t border-[#e6e6e6] px-[15px] text-[15px]">
           <span>
-            <strong className="font-light">1</strong> item left
+            <strong className="font-light">{activeCount}</strong>{' '}
+            {activeCount === 1 ? 'item' : 'items'} left
           </span>
 
           <ul className="flex justify-center gap-1">
@@ -118,10 +120,12 @@ function handleSubmit(e) {
               </button>
             </li>
           </ul>
-          <button type="button" className="cursor-pointer justify-self-end hover:underline">
-            Clear completed
-         </button>
-         </footer>
+                <button type="button" className="cursor-pointer justify-self-end hover:underline">
+                     Clear completed
+                </button>
+            </footer>
+         </>
+        )}
         </div>
     </section>
   )
